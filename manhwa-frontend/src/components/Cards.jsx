@@ -36,19 +36,19 @@ export default function Cards() {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-3 gap-2 rounded-xl ">
+          <div className="grid grid-cols-3 md:grid-cols-4 gap-2 rounded-xl ">
             {comics?.map((comic, idx) => (
               <div className="flex flex-col gap-4  bg-[#27272a] rounded text-wrap items-center p-2 justify-between" key={idx} onClick={() => alert(JSON.stringify(comic))}>
                 <img src={comic.thumbnail} alt={comic.title} className="rounded  w-full aspect-140/200 object-cover" />
-                <h4 className="text-white font-medium text-[10px]">{comic.title}</h4>
-                <div className="flex flex-row gap-1 items-center justify-between">
+                <h4 className="text-white font-medium text-[10px] md:text-sm">{comic.title}</h4>
+                <div className="flex flex-row gap-1 md:gap-2 items-center justify-between">
                   {comic.rating ? (
                     <>
-                      <span className="px-2 py-1 rounded-lg bg-[#5d5d5f] font-bold text-[7px]">Score {comic.rating}</span>
-                      <span className="px-2 py-1 rounded-lg bg-[#5d5d5f] font-bold text-[7px]">{comic.type}</span>
+                      <span className="px-2 py-1 rounded-lg bg-[#5d5d5f] font-bold text-[7px] md:text-sm">Score {comic.rating}</span>
+                      <span className="px-2 py-1 rounded-lg bg-[#5d5d5f] font-bold text-[7px] md:text-sm">{comic.type}</span>
                     </>
                   ) : (
-                    <span className="px-2 py-1 rounded-lg bg-[#5d5d5f] font-bold text-[7px]">{comic.latest_chapter}</span>
+                    <span className="px-2 py-1 rounded-lg bg-[#5d5d5f] font-bold text-[7px] md:text-sm">{comic.latest_chapter}</span>
                   )}
                 </div>
               </div>
