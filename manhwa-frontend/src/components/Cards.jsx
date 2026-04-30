@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getComics, getComicsByGenre } from "../services/comicService";
+import { getComics, getComicsByGenre, getComicsBySearch } from "../services/comicService";
 import Spinner from "../components/ui/spinner";
 import FilterGenre from "../features/FilterGenre";
 import Pagination from "./Pagination";
 import Comics from "../features/Comics";
-export default function Cards() {
+import NotFound from "./NotFound";
+export default function Cards({ inputSearch }) {
   const [comics, setComics] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -15,6 +16,8 @@ export default function Cards() {
       let data;
       if (genre) {
         data = await getComicsByGenre(genre, page);
+      } else if (inputSearch) {
+        data = await getComicsBySearch(inputSearch, page);
       } else {
         data = await getComics(page);
       }
@@ -22,7 +25,7 @@ export default function Cards() {
       setLoading(false);
     };
     fetchData();
-  }, [page, genre]);
+  }, [page, genre, inputSearch]);
   return (
     <>
       <FilterGenre
@@ -36,18 +39,20 @@ export default function Cards() {
           <Spinner className="size-20" />
         </div>
       ) : (
-        <Comics comics={comics} />
+        <>{comics.length > 0 ? <Comics comics={comics} /> : <NotFound />}</>
       )}
-      <Pagination
-        pagination={(newPage) => {
-          setPage(newPage);
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-        }}
-        currentPage={page}
-      />
+      {inputSearch ? null : (
+        <Pagination
+          pagination={(newPage) => {
+            setPage(newPage);
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }}
+          currentPage={page}
+        />
+      )}
     </>
   );
 }
